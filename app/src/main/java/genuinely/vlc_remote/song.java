@@ -4,7 +4,7 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 @Root(name = "item", strict = false)
-public class Article {
+public class song {
 
     @Element(name = "title")
     private String title;
