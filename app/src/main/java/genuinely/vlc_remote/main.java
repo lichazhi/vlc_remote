@@ -7,6 +7,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.TextView;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+import retrofit2.Call;
+import retrofit2.http.GET;
 
 public class main extends AppCompatActivity {
 
@@ -15,12 +23,21 @@ public class main extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        android.app.FragmentManager fragmentManager = getFragmentManager();
-        android.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        try {
+            Process process = Runtime.getRuntime().exec("logcat -d");
+            BufferedReader bufferedReader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream()));
 
-        fragmentTransaction.replace(android.R.id.content, playlistFragment. //filler);
-
-        fragmentTransaction.commit();
-        fragmentTransaction.add("three", Fragment)
+            StringBuilder log=new StringBuilder();
+            String line = "";
+            while ((line = bufferedReader.readLine()) != null) {
+                log.append(line);
+            }
+            TextView tv = (TextView)findViewById(R.id.textView1);
+            tv.setText(log.toString());
+        } catch (IOException e) {
+            // Handle Exception
+        }
     }
+
 }
