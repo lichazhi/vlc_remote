@@ -1,30 +1,21 @@
 package genuinely.vlc_remote;
 
+import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
-import org.simpleframework.xml.Root;
+import org.simpleframework.xml.Path;
 
-@Root(name = "item", strict = false)
+@Element(name = "leaf")
+@Path("node/node")
 public class song {
 
-    @Element(name = "title")
-    private String title;
+    @Attribute(name = "name")
+    private String name;
 
-    @Element(name = "link")
-    private String link;
-
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
+    public void setName(String name) {
+        this.name = name;
     }
 }

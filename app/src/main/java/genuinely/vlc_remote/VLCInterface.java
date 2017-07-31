@@ -4,7 +4,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 
 public interface VLCInterface {
-    @GET("article.rss")
+    @GET("song")
     Call<RSSFeed> loadRSSFeed();
 }
 

@@ -1,5 +1,8 @@
 package genuinely.vlc_remote;
 
+import android.util.Log;
+import android.widget.TextView;
+
 import java.util.Iterator;
 
 import retrofit2.Call;
@@ -10,34 +13,32 @@ import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 public class Controller implements Callback<RSSFeed> {
 
-    static final String BASE_URL = "http://vogella.com/";
+
+
+    static final String BASE_URL = "http://127.0.0.1:8080/requests/";
+    private static final String TAG = "Controller";
 
     public void start() {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
                 .addConverterFactory(SimpleXmlConverterFactory.create()).build();
 
-        VLCInterface vogellaAPI = retrofit.create(VLCInterface.class);
+        VLCInterface vlcInterface = retrofit.create(VLCInterface.class);
 
-        Call<RSSFeed> call = vogellaAPI.loadRSSFeed();
+        Call<RSSFeed> call = vlcInterface.loadRSSFeed();
         call.enqueue(this);
     }
 
     @Override
     public void onResponse(Call<RSSFeed> call, Response<RSSFeed> response) {
+
         if (response.isSuccessful()) {
             RSSFeed rss = response.body();
-            System.out.println("Channel title: " + rss.getChannelTitle());
-
-            rss.getArticleList();
-
-            for (Iterator<Article> i = rss.getArticleList().iterator(); i.hasNext();) {
-                Article article = i.next();
-                System.out.println("Title: " + article.getTitle() + " Link: " + article.getLink());
+            for (Iterator<song> i = rss.getPlaylist().iterator(); i.hasNext();) {
+                song song = i.next();
+                Log.d(TAG, (("Title: " + song.getName())));
             }
-            //rss.getArticleList().forEach(article -> System.out.println("Title: " + article.getTitle() + " Link: " + article.getLink()));
-
         } else {
-            System.out.println(response.errorBody());
+            Log.d(TAG, "error");
         }
     }
 

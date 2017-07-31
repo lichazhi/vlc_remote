@@ -23,21 +23,23 @@ public class main extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        try {
-            Process process = Runtime.getRuntime().exec("logcat -d");
-            BufferedReader bufferedReader = new BufferedReader(
-                    new InputStreamReader(process.getInputStream()));
-
-            StringBuilder log=new StringBuilder();
-            String line = "";
-            while ((line = bufferedReader.readLine()) != null) {
-                log.append(line);
-            }
-            TextView tv = (TextView)findViewById(R.id.textView1);
-            tv.setText(log.toString());
-        } catch (IOException e) {
-            // Handle Exception
-        }
+        Controller ctrl = new Controller();
+        ctrl.start();
+//
+//        try {
+//            Process process = Runtime.getRuntime().exec("logcat -d");
+//            BufferedReader bufferedReader = new BufferedReader(
+//                    new InputStreamReader(process.getInputStream()));
+//
+//            StringBuilder log=new StringBuilder();
+//            String line = "";
+//            while ((line = bufferedReader.readLine()) != null) {
+//                log.append(line);
+//            }
+//            TextView tv = (TextView)findViewById(R.id.textView1);
+//            tv.setText(log.toString());
+//        } catch (IOException e) {
+//            // Handle Exception
+//        }
     }
-
 }
