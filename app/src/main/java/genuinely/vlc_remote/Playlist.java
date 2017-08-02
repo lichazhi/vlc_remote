@@ -1,21 +1,22 @@
 package genuinely.vlc_remote;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.simpleframework.xml.Attribute;
-import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Path;
 import org.simpleframework.xml.Root;
 
 @Root(name = "node", strict = false)
 
-//@Element(name = "node")
 public class Playlist {
 
     @ElementList(entry = "leaf", inline = true)
     @Path("node")
     private List<Song> list;
+
+    private ArrayList<Song> songArrayList;
 
     @Attribute(name = "ro")
     private String ro;
