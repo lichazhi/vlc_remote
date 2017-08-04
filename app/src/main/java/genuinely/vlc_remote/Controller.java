@@ -18,10 +18,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
-//global array for the object, each object for song
-//data structure to hold it
-//Arraylist<Song>, instance of Playlist
-
 public class Controller implements Callback<Playlist> {
 
     //ArrayList where song values are stored
@@ -30,16 +26,10 @@ public class Controller implements Callback<Playlist> {
     public ArrayList<String> getArrayObject(){
         return arrayObject;
     }
-    //Song[] simpleArray = arrayObject.toArray(new Song[arrayObject.size()]);
 
     static final String BASE_URL = "http://192.168.1.79:8080/requests/";
 
     private static final String TAG = "Controller";
-
-    //Convert to String to be compatible w/ listView
-    public String getStringA() {
-        return arrayObject.toString();
-    }
 
     public void start() {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
@@ -49,7 +39,6 @@ public class Controller implements Callback<Playlist> {
 
         //Fetch the list of songs
         Call<Playlist> call = vlcInterface.loadPlaylist(Credentials.basic("","123456"));
-        //executing call asynchronously
         call.enqueue(this);
     }
 
@@ -68,6 +57,8 @@ public class Controller implements Callback<Playlist> {
                 Song song = i.next();
                 Log.d(TAG, (("Title: " + song.getName())));
                 String songName = song.getName();
+                int id = song.getId();
+                Log.d(TAG, "this song's id is:" + (id));
                 arrayObject.add(songName);
             }
         } else {

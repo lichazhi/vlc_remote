@@ -12,7 +12,11 @@ public class Song {
     @Attribute(name = "name")
     private String name;
 
+    @Attribute(name = "id")
+    private int id;
+
     public Song() {
+
     }
 
     public String getName() {
@@ -21,5 +25,13 @@ public class Song {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
