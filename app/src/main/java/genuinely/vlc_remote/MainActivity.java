@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> av, View view, int i, long l) {
                 Toast.makeText(MainActivity.this, "myPos "+ (i + 1), Toast.LENGTH_SHORT).show();
+                statusController.setIdList(i + 4);
                 statusController.start();
             }
         });

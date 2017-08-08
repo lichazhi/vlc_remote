@@ -14,6 +14,12 @@ import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 public class StatusController {
 
+    public int idList;
+
+    public void setIdList(int touchID) {
+        this.idList = touchID;
+    }
+
     //URL to be appended
     static final String DEFAULT_URL = "http://192.168.1.79:8080/requests/";
 
@@ -25,7 +31,7 @@ public class StatusController {
 
         VLCInterface vlcInterface = retrofit.create(VLCInterface.class);
 
-        Call<Status> call = vlcInterface.getStatus(okhttp3.Credentials.basic("","123456"),"pl_play", 4);
+        Call<Status> call = vlcInterface.getStatus(okhttp3.Credentials.basic("","123456"),"pl_play", idList);
         call.enqueue(new Callback<Status>() {
             @Override
             public void onResponse(Call<Status> call, Response<Status> response) {
