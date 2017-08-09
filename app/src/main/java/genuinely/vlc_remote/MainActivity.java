@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> av, View view, int i, long l) {
                 Toast.makeText(MainActivity.this, "myPos "+ (i + 1), Toast.LENGTH_SHORT).show();
                 statusController.setIdList(i + 4);
+                statusController.setCommand("pl_pause");
                 statusController.start();
             }
         });
@@ -144,6 +145,57 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onFailure(Call<Playlist> call, Throwable t) {
             t.printStackTrace();
+        }
+    }
+
+    class StatusController {
+
+        public int idList;
+        private String command;
+        private String ipAddress;
+
+        public void setIdList(int touchID) {
+            this.idList = touchID;
+        }
+        public void setCommand(String command1) {
+            this.command = command1;
+        }
+
+        public void setIpAddress(String ipAddress) {
+            this.ipAddress = ipAddress;
+        }
+
+        //URL to be appended
+        String DEFAULT_URL = "http://" + mIP + ":8080/requests/";
+
+        private static final String TAG = "StatusController";
+
+        public void start() {
+            Retrofit retrofit = new Retrofit.Builder().baseUrl(DEFAULT_URL)
+                    .addConverterFactory(SimpleXmlConverterFactory.create()).build();
+
+            VLCInterface vlcInterface = retrofit.create(VLCInterface.class);
+
+            Call<Status> call = vlcInterface.getStatus(okhttp3.Credentials.basic("", password), command, idList);
+            call.enqueue(new Callback<Status>() {
+                @Override
+                public void onResponse(Call<Status> call, Response<Status> response) {
+                    Log.d(TAG, "Response");
+
+                    if (response.isSuccessful()) {
+                        Log.d(TAG, "Response is success");
+                    }
+
+                    else {
+                        Log.d(TAG, "error");
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Status> call, Throwable t) {
+
+                }
+            });
         }
     }
 }

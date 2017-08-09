@@ -15,9 +15,8 @@ public interface VLCInterface {
     Call<Playlist> loadPlaylist(@Header("Authorization") String credentials);
 
     //Play and Stop
-    @GET("{ipAddress}/requests/status.xml")
+    @GET("status.xml")
     Call<Status> getStatus(@Header("Authorization") String credentials,
-                           @Path("ipAddress") String ipAddress,
                            @Query("command") String command,
                            @Query("id") int id
     );
