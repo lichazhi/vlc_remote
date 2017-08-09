@@ -10,14 +10,16 @@ import retrofit2.http.Query;
 public interface VLCInterface {
 
     //Query Playlist
-    @GET("playlist.xml")
-    Call<Playlist> loadPlaylist(@Header("Authorization") String credentials);
+    @GET("{ipAddress}/requests/playlist.xml")
+    Call<Playlist> loadPlaylist(@Header("Authorization") String credentials,
+                                @Path("ipAddress") String ipAddress);
 
     //Play and Stop
-    @GET("status.xml")
+    @GET("{ipAddress}/requests/status.xml")
     Call<Status> getStatus(@Header("Authorization") String credentials,
-            @Query("command") String command,
-            @Query("id") int id
+                           @Path("ipAddress") String ipAddress,
+                           @Query("command") String command,
+                           @Query("id") int id
     );
 }
 

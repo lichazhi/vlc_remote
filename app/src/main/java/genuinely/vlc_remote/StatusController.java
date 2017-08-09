@@ -1,4 +1,4 @@
-package genuinely.vlc_remote.dummy;
+package genuinely.vlc_remote;
 
 import android.net.Credentials;
 import android.util.Log;
@@ -15,9 +15,14 @@ import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 public class StatusController {
 
     public int idList;
+    private String ipAddress;
 
     public void setIdList(int touchID) {
         this.idList = touchID;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
     }
 
     //URL to be appended
@@ -31,7 +36,7 @@ public class StatusController {
 
         VLCInterface vlcInterface = retrofit.create(VLCInterface.class);
 
-        Call<Status> call = vlcInterface.getStatus(okhttp3.Credentials.basic("","123456"),"pl_play", idList);
+        Call<Status> call = vlcInterface.getStatus(okhttp3.Credentials.basic("","123456"), ipAddress,"pl_play", idList);
         call.enqueue(new Callback<Status>() {
             @Override
             public void onResponse(Call<Status> call, Response<Status> response) {

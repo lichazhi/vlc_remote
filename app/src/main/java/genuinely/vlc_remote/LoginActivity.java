@@ -1,5 +1,6 @@
 package genuinely.vlc_remote;
 
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,6 +34,10 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this,
                                     "Login successful",
                                     Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            intent.putExtra("ip", mIP.getText());
+                            intent.putExtra("password", mPassword.getText());
+                            startActivity(intent);
                         } else {
                             Toast.makeText(LoginActivity.this, "Please fill any empty fields", Toast.LENGTH_SHORT).show();
                         }
