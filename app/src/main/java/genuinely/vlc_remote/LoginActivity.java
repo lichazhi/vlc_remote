@@ -1,6 +1,7 @@
 package genuinely.vlc_remote;
 
 import android.content.Intent;
+import android.nfc.Tag;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
+
+    private static final String TAG = "LoginActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +38,10 @@ public class LoginActivity extends AppCompatActivity {
                                     "Login successful",
                                     Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            intent.putExtra("ip", mIP.getText());
-                            intent.putExtra("password", mPassword.getText());
+                            intent.putExtra("ip", mIP.getText().toString());
+                            Log.d(TAG, "This is ip:" + mIP.getText());
+                            intent.putExtra("password", mPassword.getText().toString());
+                            Log.d(TAG, "This is password:" + mPassword.getText());
                             startActivity(intent);
                         } else {
                             Toast.makeText(LoginActivity.this, "Please fill any empty fields", Toast.LENGTH_SHORT).show();

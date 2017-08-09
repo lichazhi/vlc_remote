@@ -9,7 +9,6 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -22,15 +21,13 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.Iterator;
 
 public class MainActivity extends AppCompatActivity {
 
     private ListView mListView;
     private static Controller mCtrl;
-    private String ip;
+    private String mIP;
     private String password;
     private static final String TAG = "MainActivity";
     private static final int GET_PLAYLIST_MSG = 1;
@@ -45,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    public void setIp(String ip1) {
-        this.ip = ip1;
+    public void setmIP(String ip1) {
+        this.mIP = ip1;
     }
 
     public void onConfigurationChanged(Configuration newConfig)
@@ -60,8 +57,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Intent i = getIntent();
-        ip = i.getStringExtra("ip");
+        mIP = i.getStringExtra("ip");
+        Log.d(TAG, "This is IP:" + mIP);
         password = i.getStringExtra("password");
+        Log.d(TAG, "This is Password:" + password);
 
         //Controller, Status Controller, and ListView
         mCtrl = new Controller();
@@ -98,21 +97,20 @@ public class MainActivity extends AppCompatActivity {
 
     class Controller implements Callback<Playlist> {
 
-        final android.os.Handler mHandler = new android.os.Handler();
-        //ArrayList where song values are stored
-
-        static final String BASE_URL = "http://192.168.1.79:8080/requests/";
-
         private static final String TAG = "Controller";
 
         public void start() {
-            Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
-                    .addConverterFactory(SimpleXmlConverterFactory.create()).build();
+            String BASE_URL = "http://"+ mIP + ":8080/requests/";
+            Log.d(TAG, BASE_URL);
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(SimpleXmlConverterFactory.create())
+                    .build();
 
             VLCInterface vlcInterface = retrofit.create(VLCInterface.class);
 
             //Fetch the list of songs
-            Call<Playlist> call = vlcInterface.loadPlaylist(Credentials.basic("",password));
+            Call<Playlist> call = vlcInterface.loadPlaylist(Credentials.basic("", password));
             call.enqueue(this);
         }
 
