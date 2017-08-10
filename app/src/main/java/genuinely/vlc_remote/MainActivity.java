@@ -86,14 +86,23 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "After");
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             public void onItemClick(AdapterView<?> av, View view, int i, long l) {
-                Toast.makeText(MainActivity.this, "myPos "+ (i + 1), Toast.LENGTH_SHORT).show();
                 statusController.setIdList(i + 4);
                 statusController.setCommand("pl_pause");
                 statusController.start();
             }
+
         });
 
+        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                statusController.setIdList(position + 4);
+                statusController.setCommand("pl_play");
+                statusController.start();
+                return true;
+            }
+        });
     }
 
     class Controller implements Callback<Playlist> {
@@ -157,6 +166,11 @@ public class MainActivity extends AppCompatActivity {
         public void setIdList(int touchID) {
             this.idList = touchID;
         }
+
+        public int getIdList() {
+            return idList;
+        }
+
         public void setCommand(String command1) {
             this.command = command1;
         }
